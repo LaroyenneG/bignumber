@@ -235,12 +235,12 @@ namespace bignumber {
 
     }
 
-    bool biginteger::equals(const biginteger &number) const {
+    bool biginteger::equals(const biginteger &n) const {
 
-        const unsigned int n_length = number.length();
+        const unsigned int n_length = n.length();
         const unsigned int t_length = length();
 
-        if (sign != number.sign) {
+        if (sign != n.sign) {
             return false;
         }
 
@@ -249,7 +249,7 @@ namespace bignumber {
         }
 
         for (int i = 0; i < t_length; ++i) {
-            if (table[i] != number.table[i]) {
+            if (table[i] != n.table[i]) {
                 return false;
             }
         }
@@ -283,135 +283,135 @@ namespace bignumber {
      * operators
      */
 
-    biginteger biginteger::operator+(const biginteger &number) const {
+    biginteger biginteger::operator+(const biginteger &n) const {
 
-        if (sign && !number.sign) {
-            return *this - number;
+        if (sign && !n.sign) {
+            return *this - n;
         }
 
-        if (!sign && number.sign) {
-            return number - *this;
+        if (!sign && n.sign) {
+            return n - *this;
         }
 
-        if (!sign && !number.sign) {
-            return -simple_add(*this, number);
+        if (!sign && !n.sign) {
+            return -simple_add(*this, n);
         }
 
-        return simple_add(*this, number);
+        return simple_add(*this, n);
     }
 
-    biginteger biginteger::operator-(const biginteger &number) const {
+    biginteger biginteger::operator-(const biginteger &n) const {
 
-        if (sign && !number.sign) {
-            return simple_add(*this, number);
+        if (sign && !n.sign) {
+            return simple_add(*this, n);
         }
 
-        if (!sign && number.sign) {
-            return -simple_add(*this, number);
+        if (!sign && n.sign) {
+            return -simple_add(*this, n);
         }
 
-        if (*this < number) {
-            return -simple_sub(number, *this);
+        if (*this < n) {
+            return -simple_sub(n, *this);
         }
 
-        return simple_sub(*this, number);
+        return simple_sub(*this, n);
     }
 
-    biginteger biginteger::operator/(const biginteger &number) const {
+    biginteger biginteger::operator/(const biginteger &n) const {
         return biginteger();
     }
 
-    biginteger biginteger::operator%(const biginteger &number) const {
+    biginteger biginteger::operator%(const biginteger &n) const {
         return biginteger();
     }
 
-    biginteger biginteger::operator*(const biginteger &number) const {
+    biginteger biginteger::operator*(const biginteger &n) const {
 
-        biginteger result = simple_mult(*this, number);
+        biginteger result = simple_mult(*this, n);
 
-        if (sign != number.sign) {
+        if (sign != n.sign) {
             result.sign = false;
         }
 
         return result;
     }
 
-    bool biginteger::operator==(const biginteger &number) const {
-        return equals(number);
+    bool biginteger::operator==(const biginteger &n) const {
+        return equals(n);
     }
 
-    bool biginteger::operator!=(const biginteger &number) const {
-        return !equals(number);
+    bool biginteger::operator!=(const biginteger &n) const {
+        return !equals(n);
     }
 
-    bool biginteger::operator>(const biginteger &number) const {
+    bool biginteger::operator>(const biginteger &n) const {
 
-        if (sign && !number.sign) {
+        if (sign && !n.sign) {
             return true;
         }
 
-        if (!sign && !number.sign) {
-            return simple_is_inf(*this, number);
+        if (!sign && !n.sign) {
+            return simple_is_inf(*this, n);
         }
 
-        return simple_is_sup(*this, number);
+        return simple_is_sup(*this, n);
     }
 
-    bool biginteger::operator<(const biginteger &number) const {
+    bool biginteger::operator<(const biginteger &n) const {
 
-        if (!sign && number.sign) {
+        if (!sign && n.sign) {
             return true;
         }
 
-        if (!sign && !number.sign) {
-            return simple_is_sup(*this, number);
+        if (!sign && !n.sign) {
+            return simple_is_sup(*this, n);
         }
 
-        return simple_is_inf(*this, number);
+        return simple_is_inf(*this, n);
     }
 
-    bool biginteger::operator<=(const biginteger &number) const {
+    bool biginteger::operator<=(const biginteger &n) const {
 
-        if (*this == number) {
+        if (*this == n) {
             return true;
         }
 
-        return *this < number;
+        return *this < n;
     }
 
-    bool biginteger::operator>=(const biginteger &number) const {
+    bool biginteger::operator>=(const biginteger &n) const {
 
-        if (*this == number) {
+        if (*this == n) {
             return true;
         }
 
-        return *this > number;
+        return *this > n;
     }
 
-    biginteger &biginteger::operator+=(const biginteger &number) {
+    biginteger &biginteger::operator+=(const biginteger &n) {
 
-        *this = *this + number;
+        *this = *this + n;
 
         return *this;
     }
 
-    biginteger &biginteger::operator-=(const biginteger &number) {
+    biginteger &biginteger::operator-=(const biginteger &n) {
 
-        *this = *this - number;
-
-        return *this;
-    }
-
-    biginteger &biginteger::operator/=(const biginteger &number) {
-
-        *this = *this / number;
+        *this = *this - n;
 
         return *this;
     }
 
-    biginteger &biginteger::operator*=(const biginteger &number) {
+    biginteger &biginteger::operator/=(const biginteger &n) {
 
-        *this = *this * number;
+        *this = *this / n;
+
+        return *this;
+    }
+
+    biginteger &biginteger::operator*=(const biginteger &n) {
+
+        *this = *this * n;
 
         return *this;
     }
@@ -445,15 +445,15 @@ namespace bignumber {
         return *this;
     }
 
-    biginteger &biginteger::operator=(const biginteger &number) {
+    biginteger &biginteger::operator=(const biginteger &n) {
 
-        realloc(number.length());
+        realloc(n.length());
 
-        for (unsigned int i = 0; i < number.length(); ++i) {
-            table[i] = number.table[i];
+        for (unsigned int i = 0; i < n.length(); ++i) {
+            table[i] = n.table[i];
         }
 
-        sign = number.sign;
+        sign = n.sign;
 
         return *this;
     }

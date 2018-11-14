@@ -7,10 +7,11 @@
 
 #include <string>
 #include <cmath>
+#include "number.h"
 
 namespace bignumber {
 
-    class biginteger {
+    class biginteger : number {
 
     private:
         unsigned short *table;
@@ -42,9 +43,9 @@ namespace bignumber {
 
         ~biginteger();
 
-        std::string to_string() const;
+        std::string to_string() const override;
 
-        bool equals(const biginteger &obj) const;
+        bool equals(const biginteger &n) const;
 
         unsigned int length() const;
 
@@ -52,37 +53,37 @@ namespace bignumber {
          * Operators
          **********************************************************************/
 
-        biginteger operator+(const biginteger &number) const;
+        bool operator==(const biginteger &n) const;
 
-        biginteger operator-(const biginteger &number) const;
+        bool operator!=(const biginteger &n) const;
+
+        biginteger operator+(const biginteger &n) const;
+
+        biginteger operator-(const biginteger &n) const;
 
         biginteger &operator-();
 
-        biginteger operator/(const biginteger &number) const;
+        biginteger operator/(const biginteger &n) const;
 
-        biginteger operator%(const biginteger &number) const;
+        biginteger operator%(const biginteger &n) const;
 
-        biginteger operator*(const biginteger &number) const;
+        biginteger operator*(const biginteger &n) const;
 
-        bool operator==(const biginteger &number) const;
+        bool operator>(const biginteger &n) const;
 
-        bool operator!=(const biginteger &number) const;
+        bool operator<(const biginteger &n) const;
 
-        bool operator>(const biginteger &number) const;
+        bool operator<=(const biginteger &n) const;
 
-        bool operator<(const biginteger &number) const;
+        bool operator>=(const biginteger &n) const;
 
-        bool operator<=(const biginteger &number) const;
+        biginteger &operator+=(const biginteger &n);
 
-        bool operator>=(const biginteger &number) const;
+        biginteger &operator-=(const biginteger &n);
 
-        biginteger &operator+=(const biginteger &number);
+        biginteger &operator/=(const biginteger &n);
 
-        biginteger &operator-=(const biginteger &number);
-
-        biginteger &operator/=(const biginteger &number);
-
-        biginteger &operator*=(const biginteger &number);
+        biginteger &operator*=(const biginteger &n);
 
         const biginteger operator++(int);
 
@@ -92,7 +93,7 @@ namespace bignumber {
 
         const biginteger operator--(int);
 
-        biginteger &operator=(const biginteger &number);
+        biginteger &operator=(const biginteger &n);
     };
 }
 

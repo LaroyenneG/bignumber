@@ -10,6 +10,8 @@ void simpleTest() {
     biginteger n1 = 10;
     biginteger n2 = 5;
 
+    CPPUNIT_ASSERT(n1.length() == 1);
+
     CPPUNIT_ASSERT(n1 == 10);
     CPPUNIT_ASSERT(n2 == 5);
     CPPUNIT_ASSERT(-n2 == -5);

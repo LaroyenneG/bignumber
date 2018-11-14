@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(src)
 
-add_library(Bignumber src/biginteger.cpp src/biginteger.h)
+add_library(Bignumber src/biginteger.cpp src/biginteger.h src/number.cpp src/number.h)
 
 if (UNIX)
     add_executable(Bignumbertest src/biginteger.cpp src/biginteger.h test/TestBiginteger.cpp test/TestBiginteger.h test/main.cpp)
