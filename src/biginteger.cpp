@@ -4,19 +4,23 @@
 
 #include "biginteger.h"
 
+#define DEFAULT_TABLE_SIZE 100
+
 namespace bignumber {
 
     /*
      * Definition : [ 1 2 3 4 5 0 0 0 ] -
      */
 
-    const unsigned short biginteger::BASE = static_cast<const unsigned short>(pow(2, sizeof(unsigned short) * 8) - 1);
+    //const unsigned short biginteger::BASE = static_cast<const unsigned short>(pow(2, sizeof(unsigned short) * 8) - 1);
+    const unsigned short biginteger::BASE = static_cast<const unsigned short>(4000);
 
     biginteger::biginteger() : table(new unsigned short[1]), size(1), sign(true) {
         table[0] = 0;
     }
 
     biginteger::biginteger(const std::string &value) : biginteger() {
+        exit(-1);
     }
 
 
@@ -41,7 +45,7 @@ namespace bignumber {
             n = -n;
         }
 
-        realloc(10);
+        realloc(DEFAULT_TABLE_SIZE);
 
         int i = 0;
         while (n > 0) {
@@ -80,11 +84,13 @@ namespace bignumber {
             string += '-';
         }
 
-        for (long i = length() - 1; i >= 0; --i) {
+        const unsigned int l = length();
+
+        for (long i = l - 1; i >= 0; --i) {
 
             string += std::to_string(table[i]);
 
-            if (i + 1 < length()) {
+            if (i - 1 >= 0) {
                 string += ' ';
             }
         }
@@ -108,21 +114,24 @@ namespace bignumber {
 
         for (int i = 0; i < n2_length; ++i) {
 
-            int j = i;
+            bool flag = false;
 
-            long long n = n2.table[i];
+            int j = i;
 
             do {
 
-                n += result.table[j];
+                unsigned long long a = result.table[j];
+                unsigned long long b = (flag) ? 1 : n2.table[j];
+
+                unsigned long long n = a + b;
+
+                flag = n >= BASE;
 
                 result.table[j] = static_cast<unsigned short>(n % BASE);
 
-                n /= BASE;
-
                 j++;
 
-            } while (n > 0);
+            } while (flag);
         }
 
         return result;
@@ -145,18 +154,27 @@ namespace bignumber {
 
             int j = i;
 
-            long long n = n2.table[i];
+            bool flag = false;
 
             do {
-                n = result.table[j] - n;
+
+                unsigned long long a = result.table[j];
+                unsigned long long b = (flag) ? 1 : n2.table[j];
+
+                unsigned long long n;
+                if (a < b) {
+                    n = BASE - (b - a);
+                    flag = true;
+                } else {
+                    n = a - b;
+                    flag = false;
+                }
 
                 result.table[j] = static_cast<unsigned short>(n % BASE);
 
-                n /= BASE;
-
                 j++;
 
-            } while (n > 0);
+            } while (flag);
         }
 
         return result;
@@ -280,7 +298,7 @@ namespace bignumber {
 
 
     /*
-     * operators
+     * Operators
      */
 
     biginteger biginteger::operator+(const biginteger &n) const {
@@ -418,16 +436,20 @@ namespace bignumber {
 
     const biginteger biginteger::operator++(int) {
 
-        *this += 1;
+        const biginteger n = *this;
 
-        return *this;
+        *this = *this + 1;
+
+        return n;
     }
 
     const biginteger biginteger::operator--(int) {
 
+        const biginteger n = *this;
+
         *this -= 1;
 
-        return *this;
+        return n;
     }
 
     biginteger &biginteger::operator++() {
@@ -458,10 +480,12 @@ namespace bignumber {
         return *this;
     }
 
-    biginteger &biginteger::operator-() {
+    biginteger biginteger::operator-() const {
 
-        sign = !sign;
+        biginteger n = *this;
 
-        return *this;
+        n.sign = !sign;
+
+        return n;
     }
 }

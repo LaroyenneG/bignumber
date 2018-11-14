@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 
     CppUnit::TextTestRunner runner;
 
-    runner.addTest(new TestBignumber("Bignumber class test"));
+    runner.addTest(new TestBignumber("Biginteger class test"));
 
     runner.run();
 

@@ -37,7 +37,7 @@ namespace bignumber {
 
         biginteger(const std::string &value);
 
-        biginteger(long long int n);
+        biginteger(long long n);
 
         biginteger();
 
@@ -61,7 +61,7 @@ namespace bignumber {
 
         biginteger operator-(const biginteger &n) const;
 
-        biginteger &operator-();
+        biginteger operator-() const;
 
         biginteger operator/(const biginteger &n) const;
 
