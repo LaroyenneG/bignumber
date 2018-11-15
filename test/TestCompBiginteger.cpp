@@ -19,4 +19,15 @@ void TestCompBiginteger::runTest() {
     CPPUNIT_ASSERT(n2 < n1);
     CPPUNIT_ASSERT(n1 <= n1);
     CPPUNIT_ASSERT(n1 >= n1);
+
+    CPPUNIT_ASSERT(!(n1 <= n2));
+    CPPUNIT_ASSERT(!(n1 < n2));
+    CPPUNIT_ASSERT(!(n2 >= n1));
+    CPPUNIT_ASSERT(!(n2 > n1));
+
+    CPPUNIT_ASSERT(n1 == n1);
+    CPPUNIT_ASSERT(!(n1 != n1));
+    CPPUNIT_ASSERT(n2 != n1);
+    CPPUNIT_ASSERT(n1 != n2);
+    CPPUNIT_ASSERT(!(n1 == n2));
 }

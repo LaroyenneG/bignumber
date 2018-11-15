@@ -24,7 +24,7 @@ namespace bignumber {
         exit(-1);
     }
 
-    biginteger::biginteger(const biginteger &number) {
+    biginteger::biginteger(const biginteger &number) : table(nullptr), size(0) {
 
         const unsigned int n_length = number.length();
 
