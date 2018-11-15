@@ -156,6 +156,7 @@ namespace bignumber {
 
     biginteger biginteger::simple_sub(const biginteger &n1, const biginteger &n2) {
 
+
         biginteger result;
 
         const unsigned int n1_length = n1.length();
@@ -228,7 +229,7 @@ namespace bignumber {
             return false;
         }
 
-        for (unsigned int i = 0; i < n1_length; ++i) {
+        for (unsigned int i = n1_length - 1; i >= 0; --i) {
 
             if (n1.table[i] > n2.table[i]) {
                 return true;
@@ -256,7 +257,7 @@ namespace bignumber {
         }
 
 
-        for (unsigned int i = 0; i < n1_length; ++i) {
+        for (unsigned int i = n1_length - 1; i >= 0; --i) {
 
             if (n1.table[i] < n2.table[i]) {
                 return true;
@@ -345,7 +346,7 @@ namespace bignumber {
             return -simple_add(*this, n);
         }
 
-        if (*this < n) {
+        if (*this <= n) {
             return -simple_sub(n, *this);
         }
 
@@ -386,7 +387,7 @@ namespace bignumber {
         }
 
         if (!sign && !n.sign) {
-            return simple_is_inf(*this, n);
+            return simple_is_sup(n, *this);
         }
 
         return simple_is_sup(*this, n);
@@ -399,7 +400,7 @@ namespace bignumber {
         }
 
         if (!sign && !n.sign) {
-            return simple_is_sup(*this, n);
+            return simple_is_inf(n, *this);
         }
 
         return simple_is_inf(*this, n);

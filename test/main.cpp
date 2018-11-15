@@ -14,8 +14,9 @@ int main(int argc, char **argv) {
 
     CppUnit::TextTestRunner runner;
 
+
     runner.addTest(new TestCompBiginteger("Biginteger < > fonction test"));
-    runner.addTest(new TestNegBiginteger("Biginteger - fonction test"));
+    runner.addTest(new TestNegBiginteger("Biginteger neg fonction test"));
     runner.addTest(new TestAddBiginteger("Biginteger + fonction test"));
     runner.addTest(new TestSubBiginteger("Biginteger - fonction test"));
 
