@@ -43,7 +43,7 @@ namespace bignumber {
             n = -n;
         }
 
-        alloc(10000);
+        alloc(10);
 
         int i = 0;
         while (n > 0) {
