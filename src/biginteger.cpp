@@ -13,8 +13,8 @@ namespace bignumber {
      */
 
     const unsigned long long biginteger::BASE = static_cast<const unsigned long long>(
-            // pow(2, sizeof(unsigned short) * 8) - 1);
-            10);
+            pow(2, sizeof(unsigned short) * 8) - 1);
+
 
     biginteger::biginteger() : table(new unsigned short[1]), size(1), sign(true) {
         table[0] = 0;
@@ -47,7 +47,7 @@ namespace bignumber {
             sign = true;
         }
 
-        alloc(100);
+        alloc(100); //temp
 
         int i = 0;
         while (n > 0) {
