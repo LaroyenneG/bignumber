@@ -2,6 +2,7 @@
 // Created by Guillaume LAROYENNE on 29/10/18.
 //
 
+#include <iostream>
 #include "biginteger.h"
 
 
@@ -12,21 +13,22 @@ namespace bignumber {
      */
 
     const unsigned long long biginteger::BASE = static_cast<const unsigned long long>(
-            pow(2, sizeof(unsigned short) * 8) - 1);
+            // pow(2, sizeof(unsigned short) * 8) - 1);
+            10);
 
     biginteger::biginteger() : table(new unsigned short[1]), size(1), sign(true) {
         table[0] = 0;
     }
 
     biginteger::biginteger(const std::string &value) : biginteger() {
-
+        exit(-1);
     }
 
-    biginteger::biginteger(const biginteger &number) : biginteger() {
+    biginteger::biginteger(const biginteger &number) {
 
         const unsigned int n_length = number.length();
 
-        realloc(n_length);
+        alloc(n_length);
 
         for (unsigned int i = 0; i < n_length; ++i) {
             table[i] = number.table[i];
@@ -41,9 +43,11 @@ namespace bignumber {
         if (n < 0) {
             sign = false;
             n = -n;
+        } else {
+            sign = true;
         }
 
-        alloc(10);
+        alloc(100);
 
         int i = 0;
         while (n > 0) {
@@ -51,6 +55,7 @@ namespace bignumber {
             n /= BASE;
             i++;
         }
+
     }
 
     biginteger::~biginteger() {
@@ -60,15 +65,13 @@ namespace bignumber {
 
     void biginteger::alloc(unsigned int n) {
 
-        if (size > 0) {
-            delete[] table;
-        }
+        delete[] table;
 
         size = n;
 
         table = new unsigned short[n];
 
-        for (int i = 0; i < n; ++i) {
+        for (unsigned int i = 0; i < n; ++i) {
             table[i] = 0;
         }
     }

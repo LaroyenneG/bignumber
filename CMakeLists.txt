@@ -5,10 +5,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(src)
 
-add_library(Bignumber src/biginteger.cpp src/biginteger.h test/TestAddBiginteger.cpp test/TestAddBiginteger.h)
+add_library(Bignumber src/biginteger.cpp src/biginteger.h test/TestAddBiginteger.cpp test/TestAddBiginteger.h test/TestCompBiginteger.cpp test/TestCompBiginteger.h)
 
 if (UNIX)
-    add_executable(Bignumbertest src/biginteger.cpp src/biginteger.h test/main.cpp test/TestAddBiginteger.cpp test/TestAddBiginteger.h test/TestSubBiginteger.cpp test/TestSubBiginteger.h)
+    add_executable(Bignumbertest src/biginteger.cpp src/biginteger.h test/main.cpp test/TestAddBiginteger.cpp test/TestAddBiginteger.h test/TestSubBiginteger.cpp test/TestSubBiginteger.h test/TestCompBiginteger.cpp test/TestCompBiginteger.h)
     target_link_libraries(Bignumbertest pthread)
     target_link_libraries(Bignumbertest cppunit)
 endif (UNIX)

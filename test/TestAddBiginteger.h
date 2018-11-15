@@ -13,7 +13,7 @@ using namespace bignumber;
 class TestAddBiginteger : public CppUnit::TestCase {
 
 public:
-    TestAddBiginteger(std::string string);
+    explicit TestAddBiginteger(std::string string);
 
     void runTest() override;
 };

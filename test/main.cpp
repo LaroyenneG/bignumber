@@ -7,11 +7,13 @@
 
 #include "TestAddBiginteger.h"
 #include "TestSubBiginteger.h"
+#include "TestCompBiginteger.h"
 
 int main(int argc, char **argv) {
 
     CppUnit::TextTestRunner runner;
 
+    runner.addTest(new TestCompBiginteger("Biginteger < > fonction test"));
     runner.addTest(new TestAddBiginteger("Biginteger add fonction test"));
     runner.addTest(new TestSubBiginteger("Biginteger sub fonction test"));
 
