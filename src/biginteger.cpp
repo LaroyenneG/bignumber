@@ -4,7 +4,6 @@
 
 #include "biginteger.h"
 
-#define DEFAULT_TABLE_SIZE 100
 
 namespace bignumber {
 
@@ -12,17 +11,16 @@ namespace bignumber {
      * Definition : [ 1 2 3 4 5 0 0 0 ] -
      */
 
-    //const unsigned short biginteger::BASE = static_cast<const unsigned short>(pow(2, sizeof(unsigned short) * 8) - 1);
-    const unsigned short biginteger::BASE = static_cast<const unsigned short>(4000);
+    const unsigned long long biginteger::BASE = static_cast<const unsigned long long>(
+            pow(2, sizeof(unsigned short) * 8) - 1);
 
     biginteger::biginteger() : table(new unsigned short[1]), size(1), sign(true) {
         table[0] = 0;
     }
 
     biginteger::biginteger(const std::string &value) : biginteger() {
-        exit(-1);
-    }
 
+    }
 
     biginteger::biginteger(const biginteger &number) : biginteger() {
 
@@ -38,14 +36,14 @@ namespace bignumber {
     }
 
 
-    biginteger::biginteger(long long n) : biginteger() {
+    biginteger::biginteger(long long n) : size(0), table(nullptr) {
 
         if (n < 0) {
             sign = false;
             n = -n;
         }
 
-        realloc(DEFAULT_TABLE_SIZE);
+        alloc(10000);
 
         int i = 0;
         while (n > 0) {
@@ -57,6 +55,22 @@ namespace bignumber {
 
     biginteger::~biginteger() {
         delete[] table;
+    }
+
+
+    void biginteger::alloc(unsigned int n) {
+
+        if (size > 0) {
+            delete[] table;
+        }
+
+        size = n;
+
+        table = new unsigned short[n];
+
+        for (int i = 0; i < n; ++i) {
+            table[i] = 0;
+        }
     }
 
     void biginteger::realloc(unsigned int n) {
@@ -144,7 +158,7 @@ namespace bignumber {
         const unsigned int n1_length = n1.length();
         const unsigned int n2_length = n2.length();
 
-        result.realloc((n1_length > n2_length) ? n1_length : n2_length);
+        result.realloc(n1_length);
 
         for (int i = 0; i < n1_length; ++i) {
             result.table[i] = n1.table[i];
@@ -467,19 +481,6 @@ namespace bignumber {
         return *this;
     }
 
-    biginteger &biginteger::operator=(const biginteger &n) {
-
-        realloc(n.length());
-
-        for (unsigned int i = 0; i < n.length(); ++i) {
-            table[i] = n.table[i];
-        }
-
-        sign = n.sign;
-
-        return *this;
-    }
-
     biginteger biginteger::operator-() const {
 
         biginteger n = *this;
@@ -487,5 +488,12 @@ namespace bignumber {
         n.sign = !sign;
 
         return n;
+    }
+
+    std::ostream &operator<<(std::ostream &os, const biginteger &n) {
+
+        os << n.to_string();
+
+        return os;
     }
 }

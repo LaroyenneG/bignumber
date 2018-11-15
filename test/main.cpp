@@ -5,14 +5,15 @@
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
 
-#include "TestBiginteger.h"
+#include "TestAddBiginteger.h"
+#include "TestSubBiginteger.h"
 
 int main(int argc, char **argv) {
 
-
     CppUnit::TextTestRunner runner;
 
-    runner.addTest(new TestBignumber("Biginteger class test"));
+    runner.addTest(new TestAddBiginteger("Biginteger add fonction test"));
+    runner.addTest(new TestSubBiginteger("Biginteger sub fonction test"));
 
     runner.run();
 

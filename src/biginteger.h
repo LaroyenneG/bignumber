@@ -7,11 +7,10 @@
 
 #include <string>
 #include <cmath>
-#include "number.h"
 
 namespace bignumber {
 
-    class biginteger : number {
+    class biginteger {
 
     private:
         unsigned short *table;
@@ -19,6 +18,8 @@ namespace bignumber {
         bool sign;
 
         void realloc(unsigned int size);
+
+        void alloc(unsigned int size);
 
         static biginteger simple_add(const biginteger &n1, const biginteger &n2);
 
@@ -31,7 +32,7 @@ namespace bignumber {
         static bool simple_is_inf(const biginteger &n1, const biginteger &n2);
 
     public:
-        static const unsigned short BASE;
+        static const unsigned long long BASE;
 
         biginteger(const biginteger &number);
 
@@ -43,7 +44,7 @@ namespace bignumber {
 
         ~biginteger();
 
-        std::string to_string() const override;
+        std::string to_string() const;
 
         bool equals(const biginteger &n) const;
 
@@ -93,7 +94,7 @@ namespace bignumber {
 
         const biginteger operator--(int);
 
-        biginteger &operator=(const biginteger &n);
+        friend std::ostream &operator<<(std::ostream &os, const biginteger &n);
     };
 }
 
