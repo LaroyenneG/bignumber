@@ -98,6 +98,8 @@ namespace bignumber {
 
         unsigned short &operator[](unsigned int n) const;
 
+        biginteger &operator=(const biginteger &n);
+
         friend std::ostream &operator<<(std::ostream &os, const biginteger &n);
     };
 }

@@ -47,7 +47,7 @@ namespace bignumber {
             sign = true;
         }
 
-        alloc(100000); //temp
+        alloc(10);
 
         int i = 0;
         while (n > 0) {
@@ -55,7 +55,6 @@ namespace bignumber {
             n /= BASE;
             i++;
         }
-
     }
 
     biginteger::~biginteger() {
@@ -315,11 +314,11 @@ namespace bignumber {
 
     unsigned int biginteger::length() const {
 
-        unsigned int count = 0;
+        unsigned int count = 1;
 
         bool head = true;
 
-        for (long i = size - 1; i >= 0; --i) {
+        for (long i = size - 1; i > 0; --i) {
 
             if (head && table[i] != 0) {
                 head = false;
@@ -530,5 +529,18 @@ namespace bignumber {
         }
 
         return table[n];
+    }
+
+    biginteger &biginteger::operator=(const biginteger &n) {
+
+        sign = n.sign;
+
+        alloc(n.length());
+
+        for (int i = 0; i < size; ++i) {
+            table[i] = n[i];
+        }
+
+        return *this;
     }
 }
