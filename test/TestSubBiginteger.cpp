@@ -10,11 +10,12 @@ TestSubBiginteger::TestSubBiginteger(std::string string) : TestCase(string) {
 
 void TestSubBiginteger::runTest() {
 
-    biginteger n1 = 1659648673241354468;
-    biginteger n2 = 1959648676241354268;
+
+    biginteger b1 = 1659648673241354468;
+    biginteger b2 = 1959648676241354268;
 
 
-    CPPUNIT_ASSERT(n1 - n2 == -(n2 - n1));
+    CPPUNIT_ASSERT(b1 - b2 == -(b2 - b1));
 
-    CPPUNIT_ASSERT(n2 - n1 == 300000002999999800);
+    CPPUNIT_ASSERT(b2 - b1 == 300000002999999800);
 }

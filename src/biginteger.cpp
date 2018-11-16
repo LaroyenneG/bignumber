@@ -309,7 +309,19 @@ namespace bignumber {
     }
 
     biginteger biginteger::simple_div(const biginteger &n1, const biginteger &n2) {
-        return biginteger();
+
+        biginteger a = n1;
+        biginteger r = n1;
+
+        biginteger q = 0;
+
+        while (r >= n2) {
+            r = a - n2;
+            a = r;
+            q++;
+        }
+
+        return q;
     }
 
     unsigned int biginteger::length() const {
@@ -381,7 +393,10 @@ namespace bignumber {
     }
 
     biginteger biginteger::operator%(const biginteger &n) const {
-        return biginteger();
+
+        biginteger result = *this - n * (*this / n);
+
+        return result;
     }
 
     biginteger biginteger::operator*(const biginteger &n) const {

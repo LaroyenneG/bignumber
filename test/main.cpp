@@ -10,6 +10,8 @@
 #include "TestNegBiginteger.h"
 #include "TestSubBiginteger.h"
 #include "TestMultBiginteger.h"
+#include "TestDivBiginteger.h"
+#include "TestModBiginteger.h"
 
 int main(int argc, char **argv) {
 
@@ -20,9 +22,9 @@ int main(int argc, char **argv) {
     runner.addTest(new TestNegBiginteger("Biginteger neg fonction test"));
     runner.addTest(new TestAddBiginteger("Biginteger + fonction test"));
     runner.addTest(new TestSubBiginteger("Biginteger - fonction test"));
-
-
     runner.addTest(new TestMultBiginteger("Biginteger * fonction test"));
+    runner.addTest(new TestDivBiginteger("Biginteger / fonction test"));
+    runner.addTest(new TestModBiginteger("Biginteger % fonction test"));
 
     runner.run();
 
