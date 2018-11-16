@@ -91,52 +91,20 @@ namespace bignumber {
 
         prime_numbers.clear();
 
-        while (prime_numbers.size() < NUMBERS_MAX) {
+        auto **threads = new std::thread *[NUMBERS_MAX];
 
-            std::cout << "X" << std::flush;
+        for (int i = 0; i < NUMBERS_MAX; i++) {
 
-            std::thread t1([this]() {
+            threads[i] = new std::thread([this]() {
                 this->add_prime_number();
             });
-
-            std::thread t2([this]() {
-                this->add_prime_number();
-            });
-
-            std::thread t3([this]() {
-                this->add_prime_number();
-            });
-
-            std::thread t4([this]() {
-                this->add_prime_number();
-            });
-
-            std::thread t5([this]() {
-                this->add_prime_number();
-            });
-
-            std::thread t6([this]() {
-                this->add_prime_number();
-            });
-
-            std::thread t7([this]() {
-                this->add_prime_number();
-            });
-
-            std::thread t8([this]() {
-                this->add_prime_number();
-            });
-
-
-            t1.join();
-            t2.join();
-            t3.join();
-            t4.join();
-            t5.join();
-            t6.join();
-            t7.join();
-            t8.join();
         }
+
+        for (int i = 0; i < NUMBERS_MAX; ++i) {
+            threads[i]->join();
+        }
+
+        delete[] threads;
     }
 
     biginteger prime_numbers_factory::get_prime_number() const {
@@ -161,6 +129,8 @@ namespace bignumber {
         mutex.lock();
 
         prime_numbers.push_back(n);
+
+        std::cout << prime_numbers.size() << std::endl;
 
         mutex.unlock();
     }

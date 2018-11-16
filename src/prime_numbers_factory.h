@@ -10,10 +10,11 @@
 #include <mutex>
 #include <iostream>
 #include <thread>
+
 #include "biginteger.h"
 
 #define NUMBERS_MAX 100
-#define NUMBER_DIGITS_SIZE 100
+#define NUMBER_DIGITS_SIZE 50
 #define PRIME_NUMBERS_SIZE 20
 
 namespace bignumber {
