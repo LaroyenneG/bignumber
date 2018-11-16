@@ -7,6 +7,9 @@
 
 namespace bignumber {
 
+    const biginteger prime_numbers_factory::PRIME_NUMBERS[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47,
+                                                               53, 59, 61, 67, 71};
+
     prime_numbers_factory *prime_numbers_factory::instance = nullptr;
 
     prime_numbers_factory::prime_numbers_factory() {
@@ -36,13 +39,15 @@ namespace bignumber {
 
     bool prime_numbers_factory::is_prime(biginteger n) {
 
-        if (n % 2 == 0 || ((n > 11) && (n % 3 == 0 || n % 5 == 0 || n % 7 == 0 || n % 11 == 0))) {
-            return false;
+        for (const biginteger &p : PRIME_NUMBERS) {
+            if (n % p == 0) {
+                return false;
+            }
         }
 
-        const auto i_max = sqrt(n);
+        const auto i_max = biginteger::sqrt(n);
 
-        for (biginteger i = 3; i <= i_max; i += 2) {
+        for (biginteger i = PRIME_NUMBERS[PRIME_NUMBERS_SIZE - 1] + 2; i <= i_max; i += 2) {
             if (n % i == 0) {
                 return false;
             }
@@ -53,56 +58,21 @@ namespace bignumber {
 
     biginteger prime_numbers_factory::random_number() const {
 
-        static char digits[] = {3, 5, 7, 9};
+        static const char digits[] = {'3', '5', '7', '9'};
 
-        auto n = static_cast<biginteger>(digits[rand() % (sizeof(digits) / sizeof(char))]);
+        std::string number;
 
-        const auto size = NUMBER_SIZE - 1;
+        number.reserve(NUMBER_DIGITS_SIZE);
 
-        for (int p = 1; p < size; ++p) {
-            n += pow(10, static_cast<unsigned int>(p)) * static_cast<biginteger>((rand() % 10));
+        const auto size = NUMBER_DIGITS_SIZE;
+
+        for (int i = 1; i < size; ++i) {
+            number += std::to_string(random() % 10);
         }
 
-        n += pow(10, size) * static_cast<biginteger>((rand() % 9) + 1);
+        number += digits[random() % 4];
 
-        return n;
-    }
-
-    std::string prime_numbers_factory::number_to_string(biginteger n) {
-
-        std::string string;
-        string.reserve(NUMBER_SIZE);
-
-        while (n > 0) {
-            // string.insert(string.begin(), static_cast<char>('0' + (n % 10)));
-            n /= 10;
-        }
-
-        return string;
-    }
-
-    biginteger prime_numbers_factory::pow(int a, unsigned int p) {
-
-        auto n = static_cast<biginteger>(a);
-
-        for (int i = 1; i < p; ++i) {
-            n *= a;
-        }
-
-        return n;
-    }
-
-    biginteger prime_numbers_factory::sqrt(biginteger n) {
-
-        biginteger x = n;
-        biginteger y = 1;
-
-        while (x > y) {
-            x = (x + y) / 2;
-            y = n / x;
-        }
-
-        return x;
+        return biginteger(number);
     }
 
     biginteger prime_numbers_factory::build_prime_number() const {
@@ -110,12 +80,7 @@ namespace bignumber {
         biginteger n = random_number();
 
         while (!is_prime(n)) {
-
-            if (n + 2 > n) {
-                n += 2;
-            } else {
-                n = random_number();
-            }
+            n += 2;
         }
 
         return n;
@@ -127,6 +92,8 @@ namespace bignumber {
         prime_numbers.clear();
 
         while (prime_numbers.size() < NUMBERS_MAX) {
+
+            std::cout << "X" << std::flush;
 
             std::thread t1([this]() {
                 this->add_prime_number();
@@ -178,7 +145,7 @@ namespace bignumber {
             return 0;
         }
 
-        return prime_numbers[rand() % prime_numbers.size()];
+        return prime_numbers[random() % prime_numbers.size()];
     }
 
     size_t prime_numbers_factory::size() const {

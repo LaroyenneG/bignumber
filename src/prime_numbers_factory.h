@@ -13,7 +13,8 @@
 #include "biginteger.h"
 
 #define NUMBERS_MAX 100
-#define NUMBER_SIZE 19
+#define NUMBER_DIGITS_SIZE 100
+#define PRIME_NUMBERS_SIZE 20
 
 namespace bignumber {
 
@@ -30,13 +31,9 @@ namespace bignumber {
 
         static bool is_prime(biginteger n);
 
-        static std::string number_to_string(biginteger n);
-
-        static biginteger pow(int a, unsigned int p);
-
-        static biginteger sqrt(biginteger);
-
     private:
+        static const biginteger PRIME_NUMBERS[PRIME_NUMBERS_SIZE];
+
         static prime_numbers_factory *instance;
 
         void load_prime_numbers();

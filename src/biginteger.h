@@ -36,9 +36,11 @@ namespace bignumber {
     public:
         static const unsigned long long BASE;
 
+        static biginteger sqrt(const biginteger &n);
+
         biginteger(const biginteger &number);
 
-        biginteger(const std::string &value);
+        explicit biginteger(const std::string &value);
 
         biginteger(long long n);
 

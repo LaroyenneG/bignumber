@@ -344,6 +344,19 @@ namespace bignumber {
         return count;
     }
 
+    biginteger biginteger::sqrt(const biginteger &n) {
+
+        biginteger x = n;
+        biginteger y = 1;
+
+        while (x > y) {
+            x = (x + y) / 2;
+            y = n / x;
+        }
+
+        return x;
+    }
+
 
     /*
      * Operators
@@ -558,4 +571,6 @@ namespace bignumber {
 
         return *this;
     }
+
+
 }
