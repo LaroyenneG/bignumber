@@ -31,7 +31,7 @@ namespace bignumber {
         alloc(n_length);
 
         for (unsigned int i = 0; i < n_length; ++i) {
-            table[i] = number.table[i];
+            table[i] = number[i];
         }
 
         sign = number.sign;
@@ -126,7 +126,7 @@ namespace bignumber {
         result.realloc((n1_length > n2_length) ? n1_length + 1 : n2_length + 1);
 
         for (int i = 0; i < n1_length; ++i) {
-            result.table[i] = n1.table[i];
+            result[i] = n1[i];
         }
 
         for (int i = 0; i < n2_length; ++i) {
@@ -137,14 +137,14 @@ namespace bignumber {
 
             do {
 
-                unsigned long long a = result.table[j];
-                unsigned long long b = (flag) ? 1 : n2.table[j];
+                unsigned long long a = result[j];
+                auto b = static_cast<unsigned long long int>((flag) ? 1 : n2[j]);
 
                 unsigned long long n = a + b;
 
                 flag = n >= BASE;
 
-                result.table[j] = static_cast<unsigned short>(n % BASE);
+                result[j] = static_cast<unsigned short>(n % BASE);
 
                 j++;
 
@@ -165,7 +165,7 @@ namespace bignumber {
         result.realloc(n1_length);
 
         for (int i = 0; i < n1_length; ++i) {
-            result.table[i] = n1.table[i];
+            result[i] = n1[i];
         }
 
         for (int i = 0; i < n2_length; ++i) {
@@ -176,8 +176,8 @@ namespace bignumber {
 
             do {
 
-                unsigned long long a = result.table[j];
-                unsigned long long b = (flag) ? 1 : n2.table[j];
+                unsigned long long a = result[j];
+                auto b = static_cast<unsigned long long int>((flag) ? 1 : n2[j]);
 
                 unsigned long long n;
                 if (a < b) {
@@ -188,7 +188,7 @@ namespace bignumber {
                     flag = false;
                 }
 
-                result.table[j] = static_cast<unsigned short>(n % BASE);
+                result[j] = static_cast<unsigned short>(n % BASE);
 
                 j++;
 
@@ -215,14 +215,14 @@ namespace bignumber {
 
             for (int j = 0; j < n1_length; ++j) {
 
-                unsigned long long n = n1.table[j] * n2.table[i] + r;
+                unsigned long long n = n1[j] * n2[i] + r;
 
-                adder.table[j + i] = static_cast<unsigned short>(n % BASE);
+                adder[j + i] = static_cast<unsigned short>(n % BASE);
 
                 r = n / BASE;
             }
 
-            adder.table[adder.length()] = static_cast<unsigned short>(r);
+            adder[adder.length()] = static_cast<unsigned short>(r);
 
             result = simple_add(adder, result);
         }
@@ -247,10 +247,10 @@ namespace bignumber {
 
         for (unsigned int i = n1_length - 1; i >= 0; --i) {
 
-            if (n1.table[i] > n2.table[i]) {
+            if (n1[i] > n2[i]) {
                 return true;
             }
-            if (n1.table[i] < n2.table[i]) {
+            if (n1[i] < n2[i]) {
                 return false;
             }
         }
@@ -275,10 +275,10 @@ namespace bignumber {
 
         for (unsigned int i = n1_length - 1; i >= 0; --i) {
 
-            if (n1.table[i] < n2.table[i]) {
+            if (n1[i] < n2[i]) {
                 return true;
             }
-            if (n1.table[i] > n2.table[i]) {
+            if (n1[i] > n2[i]) {
                 return false;
             }
         }
@@ -301,7 +301,7 @@ namespace bignumber {
         }
 
         for (int i = 0; i < t_length; ++i) {
-            if (table[i] != n.table[i]) {
+            if (table[i] != n[i]) {
                 return false;
             }
         }
@@ -521,5 +521,14 @@ namespace bignumber {
         os << n.to_string();
 
         return os;
+    }
+
+    unsigned short &biginteger::operator[](unsigned int n) const {
+
+        if (n >= size) {
+            throw std::out_of_range("invalid digit index");
+        }
+
+        return table[n];
     }
 }

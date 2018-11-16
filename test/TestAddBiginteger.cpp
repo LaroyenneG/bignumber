@@ -16,4 +16,12 @@ void TestAddBiginteger::runTest() {
     CPPUNIT_ASSERT(n1 + n2 == n2 + n1);
 
     CPPUNIT_ASSERT(n1 + n2 == 3619297349482708736);
+
+
+    biginteger n3 = 0;
+    for (biginteger i = 0; i < 10000; ++i) {
+        n3 += i;
+    }
+
+    CPPUNIT_ASSERT(n3 == 49995000);
 }
