@@ -6,19 +6,20 @@
 #include <cppunit/ui/text/TestRunner.h>
 
 #include "TestAddBiginteger.h"
-#include "TestSubBiginteger.h"
-#include "TestCompBiginteger.h"
-#include "TestNegBiginteger.h"
+#include "TestMultBiginteger.h"
 
 int main(int argc, char **argv) {
 
     CppUnit::TextTestRunner runner;
 
-
+/*
     runner.addTest(new TestCompBiginteger("Biginteger < > fonction test"));
     runner.addTest(new TestNegBiginteger("Biginteger neg fonction test"));
     runner.addTest(new TestAddBiginteger("Biginteger + fonction test"));
     runner.addTest(new TestSubBiginteger("Biginteger - fonction test"));
+    */
+
+    runner.addTest(new TestMultBiginteger("Biginteger * fonction test"));
 
     runner.run();
 

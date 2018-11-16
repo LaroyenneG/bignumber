@@ -47,7 +47,7 @@ namespace bignumber {
             sign = true;
         }
 
-        alloc(100); //temp
+        alloc(100000); //temp
 
         int i = 0;
         while (n > 0) {
@@ -118,7 +118,7 @@ namespace bignumber {
 
     biginteger biginteger::simple_add(const biginteger &n1, const biginteger &n2) {
 
-        biginteger result;
+        biginteger result = 0;
 
         const unsigned int n1_length = n1.length();
         const unsigned int n2_length = n2.length();
@@ -157,7 +157,7 @@ namespace bignumber {
     biginteger biginteger::simple_sub(const biginteger &n1, const biginteger &n2) {
 
 
-        biginteger result;
+        biginteger result = 0;
 
         const unsigned int n1_length = n1.length();
         const unsigned int n2_length = n2.length();
@@ -200,17 +200,33 @@ namespace bignumber {
 
     biginteger biginteger::simple_mult(const biginteger &n1, const biginteger &n2) {
 
-        biginteger result;
+        const unsigned int n1_length = n1.length();
+        const unsigned int n2_length = n2.length();
 
-        if (n1 < n2) {
-            for (biginteger i; i < n1; i++) {
-                result = simple_add(result, n2);
+        biginteger result = 0;
+
+        for (int i = 0; i < n2_length; ++i) {
+
+            biginteger adder = 0;
+
+            adder.realloc(n1_length + n2_length);
+
+            unsigned long long r = 0;
+
+            for (int j = 0; j < n1_length; ++j) {
+
+                unsigned long long n = n1.table[j] * n2.table[i] + r;
+
+                adder.table[j + i] = static_cast<unsigned short>(n % BASE);
+
+                r = n / BASE;
             }
-        } else {
-            for (biginteger i; i < n2; i++) {
-                result = simple_add(result, n1);
-            }
+
+            adder.table[adder.length()] = static_cast<unsigned short>(r);
+
+            result = simple_add(adder, result);
         }
+
 
         return result;
     }
@@ -293,6 +309,9 @@ namespace bignumber {
         return true;
     }
 
+    biginteger biginteger::simple_div(const biginteger &n1, const biginteger &n2) {
+        return biginteger();
+    }
 
     unsigned int biginteger::length() const {
 
@@ -354,7 +373,12 @@ namespace bignumber {
     }
 
     biginteger biginteger::operator/(const biginteger &n) const {
-        return biginteger();
+
+        biginteger result = simple_div(*this, n);
+
+        result.sign = sign == n.sign;
+
+        return result;
     }
 
     biginteger biginteger::operator%(const biginteger &n) const {
@@ -363,11 +387,9 @@ namespace bignumber {
 
     biginteger biginteger::operator*(const biginteger &n) const {
 
-        biginteger result = simple_mult(*this, n);
+        biginteger result = (*this >= n) ? simple_mult(*this, n) : simple_mult(n, *this);
 
-        if (sign != n.sign) {
-            result.sign = false;
-        }
+        result.sign = sign == n.sign;
 
         return result;
     }

@@ -31,6 +31,8 @@ namespace bignumber {
 
         static bool simple_is_inf(const biginteger &n1, const biginteger &n2);
 
+        static biginteger simple_div(const biginteger &n1, const biginteger &n2);
+
     public:
         static const unsigned long long BASE;
 
