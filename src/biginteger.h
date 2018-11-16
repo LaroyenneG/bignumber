@@ -38,6 +38,8 @@ namespace bignumber {
 
         static biginteger sqrt(const biginteger &n);
 
+        static biginteger pow(const biginteger &n, unsigned long long int p);
+
         biginteger(const biginteger &number);
 
         explicit biginteger(const std::string &value);
@@ -101,6 +103,8 @@ namespace bignumber {
         unsigned short &operator[](unsigned int n) const;
 
         biginteger &operator=(const biginteger &n);
+
+        explicit operator long long();
 
         friend std::ostream &operator<<(std::ostream &os, const biginteger &n);
     };

@@ -12,8 +12,7 @@ namespace bignumber {
      * Definition : [ 1 2 3 4 5 0 0 0 ] -
      */
 
-    const unsigned long long biginteger::BASE = static_cast<const unsigned long long>(
-            pow(2, sizeof(unsigned short) * 8) - 1);
+    const unsigned long long biginteger::BASE = 65535;
 
 
     biginteger::biginteger() : table(new unsigned short[1]), size(1), sign(true) {
@@ -344,6 +343,10 @@ namespace bignumber {
         return count;
     }
 
+    /*
+     * Static tools functions
+     */
+
     biginteger biginteger::sqrt(const biginteger &n) {
 
         biginteger x = n;
@@ -355,6 +358,26 @@ namespace bignumber {
         }
 
         return x;
+    }
+
+
+    biginteger biginteger::pow(const biginteger &n, unsigned long long int p) {
+
+        biginteger x = n;
+
+        biginteger result = 1;
+
+        while (p != 0) {
+            if (p % 2 == 0) {
+                x *= x;
+                p >>= 1;
+            } else {
+                result *= x;
+                p--;
+            }
+        }
+
+        return n;
     }
 
 
@@ -572,5 +595,8 @@ namespace bignumber {
         return *this;
     }
 
+    biginteger::operator long long() {
 
+        return 0;
+    }
 }
