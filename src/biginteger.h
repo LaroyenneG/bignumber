@@ -6,16 +6,18 @@
 #define BIGNUMBER_BIGINTEGER_H
 
 #include <string>
-#include <cmath>
 
 namespace bignumber {
 
     class biginteger {
 
     private:
+        explicit biginteger(bool _infinity, bool _sign, unsigned int _size, unsigned short *_table);
+
         unsigned short *table;
         unsigned int size;
         bool sign;
+        bool infinity;
 
         void realloc(unsigned int size);
 
@@ -35,6 +37,8 @@ namespace bignumber {
 
     public:
         static const unsigned long long BASE;
+
+        static const biginteger INFINITY;
 
         static biginteger sqrt(const biginteger &n);
 

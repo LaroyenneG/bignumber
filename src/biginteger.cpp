@@ -14,30 +14,54 @@ namespace bignumber {
 
     const unsigned long long biginteger::BASE = 65535;
 
+    const biginteger biginteger::INFINITY(true, true, 0, nullptr);
 
-    biginteger::biginteger() : table(new unsigned short[1]), size(1), sign(true) {
-        table[0] = 0;
+    biginteger::biginteger(bool _infinity, bool _sign, unsigned int _size, unsigned short *_table) : infinity(
+            _infinity), sign(_sign), size(_size), table(_table) {
+    }
+
+    biginteger::biginteger() : biginteger(false, true, 0, nullptr) {
+        alloc(1);
     }
 
     biginteger::biginteger(const std::string &value) : biginteger() {
-        exit(-1);
-    }
 
-    biginteger::biginteger(const biginteger &number) : table(nullptr), size(0) {
-
-        const unsigned int n_length = number.length();
-
-        alloc(n_length);
-
-        for (unsigned int i = 0; i < n_length; ++i) {
-            table[i] = number[i];
+        if (value.empty()) {
+            return;
         }
 
-        sign = number.sign;
+        static const unsigned int BLOCK = 10;
+
+        for (unsigned int i = (value.front() == '-') ? 1 : 0; i < value.size(); i += BLOCK) {
+
+            std::string sseq;
+            for (int j = i; j < i + BLOCK && j < value.size(); ++j) {
+                sseq += value[j];
+            }
+
+            long long lseq = atoll(sseq.data());
+
+            biginteger bseq = lseq;
+
+            static const biginteger base(10);
+
+            bseq *= pow(base, i);
+
+            *this += bseq;
+        }
+    }
+
+    biginteger::biginteger(const biginteger &n) : biginteger(n.infinity, n.sign, 0, nullptr) {
+
+        alloc(n.length());
+
+        for (int i = 0; i < size; ++i) {
+            table[i] = n[i];
+        }
     }
 
 
-    biginteger::biginteger(long long n) : size(0), table(nullptr) {
+    biginteger::biginteger(long long n) : size(0), table(nullptr), infinity(false) {
 
         if (n < 0) {
             sign = false;
@@ -67,7 +91,7 @@ namespace bignumber {
 
         size = n;
 
-        table = new unsigned short[n];
+        table = (n != 0) ? new unsigned short[n] : nullptr;
 
         for (unsigned int i = 0; i < n; ++i) {
             table[i] = 0;
@@ -76,7 +100,7 @@ namespace bignumber {
 
     void biginteger::realloc(unsigned int n) {
 
-        auto *ntable = new unsigned short[n];
+        auto *ntable = (n != 0) ? new unsigned short[n] : nullptr;
         for (int i = 0; i < n; ++i) {
             ntable[i] = 0;
         }
@@ -324,6 +348,11 @@ namespace bignumber {
     }
 
     unsigned int biginteger::length() const {
+
+        if (infinity) {
+            return 0;
+        }
+
 
         unsigned int count = 1;
 
@@ -583,6 +612,8 @@ namespace bignumber {
     }
 
     biginteger &biginteger::operator=(const biginteger &n) {
+
+        infinity = n.infinity;
 
         sign = n.sign;
 
