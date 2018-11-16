@@ -5,7 +5,7 @@
 #ifndef BIGNUMBER_TESTADDBIGINTEGER_H
 #define BIGNUMBER_TESTADDBIGINTEGER_H
 
-#include <biginteger.h>
+#include "../src/biginteger.h"
 #include <cppunit/TestCase.h>
 
 using namespace bignumber;

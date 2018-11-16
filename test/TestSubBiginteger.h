@@ -7,8 +7,7 @@
 
 
 #include <cppunit/TestCase.h>
-#include <biginteger.h>
-
+#include "../src/biginteger.h"
 
 using namespace bignumber;
 

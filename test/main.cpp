@@ -12,6 +12,7 @@
 #include "TestMultBiginteger.h"
 #include "TestDivBiginteger.h"
 #include "TestModBiginteger.h"
+#include "TestPrimeFactory.h"
 
 int main(int argc, char **argv) {
 
@@ -25,6 +26,8 @@ int main(int argc, char **argv) {
     runner.addTest(new TestMultBiginteger("Biginteger * fonction test"));
     runner.addTest(new TestDivBiginteger("Biginteger / fonction test"));
     runner.addTest(new TestModBiginteger("Biginteger % fonction test"));
+
+    runner.addTest(new TestPrimeFactory("PrimeFactory"));
 
     runner.run();
 

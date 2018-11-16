@@ -6,8 +6,8 @@
 #define BIGNUMBER_TESTDIVBIGINTEGER_H
 
 
-#include <biginteger.h>
 #include <cppunit/TestCase.h>
+#include "../src/biginteger.h"
 
 using namespace bignumber;
 
