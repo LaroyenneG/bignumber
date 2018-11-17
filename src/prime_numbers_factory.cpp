@@ -130,7 +130,7 @@ namespace bignumber {
 
         prime_numbers.push_back(n);
 
-        std::cout << prime_numbers.size() << std::endl;
+        std::cout << prime_numbers.size() << std::flush << std::endl;
 
         mutex.unlock();
     }
